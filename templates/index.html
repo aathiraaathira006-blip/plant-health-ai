@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Plant Health AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🌱 Plant Health AI</h1>
+
+        <p class="subtitle">
+            Detect possible plant diseases using Artificial Intelligence
+        </p>
+
+
+        <div class="upload-box">
+
+            <h2>🌿 Analyze Plant Leaf</h2>
+
+            <p>
+                Upload a leaf image or capture one using your camera
+            </p>
+
+
+            <!-- Camera Section -->
+
+            <div class="camera-section">
+
+                <video id="camera"
+                       autoplay
+                       playsinline>
+                </video>
+
+                <br>
+
+                <button type="button"
+                        onclick="startCamera()">
+                    📷 Open Camera
+                </button>
+
+                <button type="button"
+                        onclick="captureImage()">
+                    📸 Capture Leaf
+                </button>
+
+            </div>
+
+
+            <!-- Captured Image -->
+
+            <canvas id="canvas"></canvas>
+
+
+            <!-- Upload Form -->
+
+            <form action="/predict"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  id="uploadForm">
+
+                <input
+                    type="file"
+                    name="image"
+                    id="imageInput"
+                    accept="image/*"
+                    required
+                >
+                <br>
+
+<a href="/history" class="back-button">
+    📋 View Scan History
+</a>
+
+                <br><br>
+
+                <button type="submit">
+                    🔍 Detect Disease
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let stream = null;
+
+
+        // Open camera
+
+        async function startCamera() {
+
+            try {
+
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: "environment"
+                    },
+                    audio: false
+                });
+
+                document.getElementById("camera").srcObject = stream;
+
+            } catch (error) {
+
+                alert("Camera access was denied or is not available.");
+
+                console.error(error);
+
+            }
+
+        }
+
+
+        // Capture image
+
+        function captureImage() {
+
+            const video = document.getElementById("camera");
+            const canvas = document.getElementById("canvas");
+
+            if (!stream) {
+
+                alert("Please open the camera first.");
+
+                return;
+            }
+
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+
+            const context = canvas.getContext("2d");
+
+            context.drawImage(
+                video,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            canvas.toBlob(function(blob) {
+
+    if (!blob) {
+        alert("Could not capture the image.");
+        return;
+    }
+
+    const file = new File(
+        [blob],
+        "camera_leaf.jpg",
+        { type: "image/jpeg" }
+    );
+
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+
+    document.getElementById("imageInput").files =
+        dataTransfer.files;
+
+    console.log("Captured image size:", blob.size);
+    console.log("Captured image type:", blob.type);
+
+    alert("Leaf captured successfully! 🌱");
+
+}, "image/jpeg", 0.95);
+
+        }
+
+    </script>
+
+</body>
+
+</html>

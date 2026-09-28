@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Scan History - Plant Health AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🌱 Plant Health AI</h1>
+
+        <p class="subtitle">
+            📋 Your Scan History
+        </p>
+
+        <div class="result-box">
+
+            {% if scans %}
+
+                {% for scan in scans %}
+
+                    <div class="history-card">
+
+                        <h2>🌿 {{ scan[2] }}</h2>
+
+                        <p>
+                            <strong>Plant:</strong>
+                            {{ scan[1] }}
+                        </p>
+
+                        <p>
+                            <strong>Confidence:</strong>
+                            {{ "%.2f"|format(scan[3]) }}%
+                        </p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            {{ scan[4] }}
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <h2>📭 No Scan History</h2>
+
+                <p>
+                    Your scan results will appear here after you analyze a leaf.
+                </p>
+
+            {% endif %}
+
+            <a href="/" class="back-button">
+                🌱 Scan Another Leaf
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

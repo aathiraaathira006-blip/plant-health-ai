@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Plant Health AI - Result</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🌱 Plant Health AI</h1>
+
+        <p class="subtitle">
+            AI-powered plant health analysis
+        </p>
+
+
+        <div class="result-box">
+
+            <h2>🔍 Detection Result</h2>
+
+
+            <img
+                src="{{ url_for('uploaded_file', filename=image_name) }}"
+                alt="Uploaded plant leaf"
+                class="result-image"
+            >
+
+
+            <div class="result-details">
+
+                <h3>Detected Condition</h3>
+
+                <p class="prediction">
+                    {{ prediction }}
+                </p>
+
+
+                <h3>AI Confidence</h3>
+
+                <div class="confidence-section">
+
+    <div class="confidence-header">
+        <h3>AI Confidence</h3>
+        <span>{{ confidence }}%</span>
+    </div>
+
+    <div class="confidence-bar">
+        <div
+            class="confidence-fill"
+            style="width: {{ confidence }}%;">
+        </div>
+    </div>
+
+</div>
+
+
+                <h3>📖 About</h3>
+
+                <p>
+                    {{ description }}
+                </p>
+
+
+                <h3>⚠️ Common Symptoms</h3>
+
+                <p>
+                    {{ symptoms }}
+                </p>
+
+
+                <h3>🌿 Prevention & Care</h3>
+
+                <p>
+                    {{ prevention }}
+                </p>
+
+            </div>
+
+
+            <a href="/" class="back-button">
+                🌱 Scan Another Leaf
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
